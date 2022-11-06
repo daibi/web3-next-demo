@@ -1,0 +1,32 @@
+.wrap{
+  display: flex;
+  flex-wrap:wrap;
+  padding-top: 40px;
+}
+
+.selectWrap{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  background-color: #fff;
+  z-index: 100;
+}
+
+
+
+.item{
+  margin-left: 40px;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.bgImg{
+  width: 600px;
+  height: 600px;
+  background: url("../asserts/bg.png");
+  background-size: 100%;
+}
