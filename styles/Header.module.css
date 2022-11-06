@@ -1,0 +1,31 @@
+.wrap{
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  border-bottom: 1px solid #e7e5ea;
+}
+.logo{
+  display: flex;
+  align-items: center;
+  font-size: 26px;
+  color: #1c67ad;
+}
+.logoIcon{
+  width: 30px;
+  height: 30px;
+  background: url("../asserts/headIcon.png");
+  background-size: 100%;
+}
+.logoText{
+  margin-left: 10px;
+  font-size: 24px;
+  font-weight: 900;
+  color: #090A0A;
+}
+.button{
+  margin-right: 10px;
+  border-radius: 8px;
+  color: #08090a;
+  border-color: #02bc62;
+  background: #02bc62;
+}

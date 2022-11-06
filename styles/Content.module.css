@@ -1,0 +1,11 @@
+.wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bgImg{
+  width: 600px;
+  height: 600px;
+  background: url("../asserts/bg.png");
+  background-size: 100%;
+}

@@ -2,7 +2,7 @@
  * @Author: 碧戈 bige.zby@alibaba-inc.com
  * @Date: 2022-10-26 16:15:00
  * @LastEditors: 碧戈 bige.zby@alibaba-inc.com
- * @LastEditTime: 2022-10-10 15:30:18
+ * @LastEditTime: 2022-10-10 16:54:18
  * @FilePath: /web3-next-demo/pages/index.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -10,7 +10,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
+export default function Demo() {
   return (
     <div className={styles.container}>
       <Head>
