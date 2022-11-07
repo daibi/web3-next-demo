@@ -172,6 +172,10 @@ export const breedExe = async (
   if (!fatherMetadata || !motherMetadata) {
     throw 'invalid metadata'
   }
+  
+  if (motherMetadata.upperTrigramGene == fatherMetadata.upperTrigramGene) {
+    throw "seems that you are making the same trigram breeding, abort"
+  }
 
   const { resultUpper, resultLower, inheritRecorder } = trigramGeneScience(
     motherMetadata.upperTrigramGene,
@@ -234,7 +238,11 @@ export const breedExe = async (
       inheritedTrigram: inheritRecorder
         .map((num, index) => num == 1 ? trigramNameConfig[indexSequenceToTrigramSign[index]] + '(' + indexSequenceToTrigramSign[index] + ')' : null)
         .filter(num => num != null)
-        .join(', ')
+        .join(', '),
+      zodiacText: zodiacNameConfig[motherMetadata.zodiacName],
+      toast: trigramToastConfig[inheritRecorder
+        .map((num, index) => num == 1 ? trigramNameConfig[indexSequenceToTrigramSign[index]] + '(' + indexSequenceToTrigramSign[index] + ')' : null)
+        .filter(num => num != null)[0]]
     }
   }
 }
