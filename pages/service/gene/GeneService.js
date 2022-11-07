@@ -30,7 +30,10 @@ export const trigramGeneScience = (
   let resultLower = motherLowerTrigramGene
 
   let num = randomNumber
+
+  let inheritRecorder = [0, 0, 0, 0, 0, 0, 0, 0]
   let inheritedNum = 0
+  
   for (let i = 0; i < 8; i++) {
     let motherUpperTrigramSign = resultUpper.substring(3 * i, 3 * i + 3)
     let fatherUpperTrigramSign = fatherUpperTrigramGene.substring(
@@ -53,7 +56,11 @@ export const trigramGeneScience = (
         console.log('trigramGeneScience father gene inherited at index: ', i)
         newLowerTrigramSign = fatherLowerTrigramSign
         newUpperTrigramSign = fatherUpperTrigramSign
+
+        // record this position has been inherited by father gene
+        inheritRecorder[i] = 1
         inheritedNum += 1
+
       }
     } 
     if (newLowerTrigramSign && newUpperTrigramSign) {
@@ -68,14 +75,7 @@ export const trigramGeneScience = (
     }
   }
 
-  console.log(
-    'trigramGeneScience result, upper:',
-    resultUpper,
-    ', lower:',
-    resultLower,
-  )
-
-  return { resultUpper, resultLower }
+  return { resultUpper, resultLower, inheritRecorder }
 }
 
 export const colorGeneScience = (

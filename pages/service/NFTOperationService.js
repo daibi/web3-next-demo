@@ -8,6 +8,11 @@ const {
   colorGeneScience,
 } = require('../service/gene/GeneService')
 
+const {trigramNameConfig, 
+  zodiacNameConfig, 
+  trigramToastConfig,
+  indexSequenceToTrigramSign} = require('../service/common/config.js')
+
 const { upload } = require('./IpfsService')
 const fs = require('fs')
 const path = require('path')
@@ -132,6 +137,14 @@ export const generateImage = async (randomNumber) => {
     zodiacName,
     imageUrl:
       'https://purple-solid-leopard-256.mypinata.cloud/ipfs/' + ipfsHash,
+    showMessage: {
+        // lighted trigram name：
+        lightedTrigram: trigramNameConfig[trigramSign.substring(0, 3)],
+        // name of zodiac:
+        zodiacText: zodiacNameConfig[zodiacName],
+        // a toast based on current trigram
+        toast: trigramToastConfig[trigramSign.substring(0, 3)]
+      }
   }
 }
 
@@ -160,7 +173,7 @@ export const breedExe = async (
     throw 'invalid metadata'
   }
 
-  const { resultUpper, resultLower } = trigramGeneScience(
+  const { resultUpper, resultLower, inheritRecorder } = trigramGeneScience(
     motherMetadata.upperTrigramGene,
     motherMetadata.lowerTrigramGene,
     fatherMetadata.upperTrigramGene,
@@ -216,6 +229,13 @@ export const breedExe = async (
     zodiacName: motherMetadata.zodiacName,
     imageUrl:
       'https://purple-solid-leopard-256.mypinata.cloud/ipfs/' + ipfsHash,
+    // print newly inherited trigrams:
+    showMessage: {
+      inheritedTrigram: inheritRecorder
+        .map((num, index) => num == 1 ? trigramNameConfig[indexSequenceToTrigramSign[index]] + '(' + indexSequenceToTrigramSign[index] + ')' : null)
+        .filter(num => num != null)
+        .join(', ')
+    }
   }
 }
 
