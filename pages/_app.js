@@ -2,7 +2,7 @@
  * @Author: 碧戈 bige.zby@alibaba-inc.com
  * @Date: 1985-10-26 16:15:00
  * @LastEditors: 碧戈 bige.zby@alibaba-inc.com
- * @LastEditTime: 2022-11-06 14:33:29
+ * @LastEditTime: 2022-11-07 18:56:30
  * @FilePath: /web3-next-demo/pages/_app.js
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -10,6 +10,7 @@ import '../styles/globals.css'
 import { useEffect, useRef, useState } from 'react';
 
 import { Layout, Button, message } from 'antd';
+import { LikeOutlined } from '@ant-design/icons';
 import "antd/dist/antd.css";
 import Header from '../components/Header';
 import StepModal from '../components/stepModel';
@@ -34,7 +35,8 @@ function MyApp({ Component, pageProps }) {
   const [ accounts, setAccounts ] = useState(null);
   const [ showSelect, setShowSelect ] = useState(false);
   const [ selectTokenId, setSelectTokenId ] = useState([]);
-  const [ showModal, setShowModal ] = useState(false)
+  const [ showModal, setShowModal ] = useState(false);
+  const [ modalData, setModalData ] = useState({message:{}, items:[]})
 
   useEffect(()=>{
     if(!web3){
@@ -57,11 +59,15 @@ function MyApp({ Component, pageProps }) {
   }
 
   const handleMint = async () => {
-    setShowModal(true)
-    
-    // message.loading({ content: 'Loading...', key: "loading" });
     
     const response = await generateGene();
+
+    setModalData({
+      items: [],
+      message: response.showMessage
+    })
+
+    setShowModal(true)
 
     console.log("*********: ", response);
     
@@ -69,6 +75,7 @@ function MyApp({ Component, pageProps }) {
   }
 
   const generateGene = async () => {
+    var loading = message.loading("Loading...", 0);
     const response = await fetch("/api/nftIndex/generateGene", {
       method: "post",
       headers: {
@@ -77,6 +84,8 @@ function MyApp({ Component, pageProps }) {
       },
       body: JSON.stringify({'randomNumber': Math.trunc(Math.random() * 1e16)})
     })
+
+    loading();
 
     return response.json()
   }
@@ -111,6 +120,7 @@ function MyApp({ Component, pageProps }) {
   }
 
   const handleBreed = async () => {
+
     const result = await fetch("/api/nftIndex/breed", {
       method: "post",
       headers: {
@@ -126,6 +136,13 @@ function MyApp({ Component, pageProps }) {
     })
 
     const nftRes = await result.json();
+
+    setModalData({
+      items: [],
+      message: nftRes.showMessage
+    })
+
+    setShowModal(true)
 
     _handleMintN( selectTokenId[0], selectTokenId[1], nftRes.imageUrl, nftRes.resultUpper, nftRes.resultLower, nftRes.resultColorFrom, nftRes.resultColorTo, nftRes.zodiacName )
   }
@@ -146,14 +163,41 @@ function MyApp({ Component, pageProps }) {
     return response.json();
   }
 
+  const _handleResetModalData = ()=>{
+    setModalData({
+      items: [],
+      message: {}
+    })
+  }
+
+  const _handleModalSuccess = () => {
+    setModalData((preModalData)=>{
+      return {
+        ...preModalData,
+        items: [
+          {
+            status: 'finish',
+          },
+          {
+            status: 'finish',
+            icon: <LikeOutlined />
+          },
+          {
+            status: 'finish',
+          }
+        ]
+      }
+    })
+  }
+
   // mint方法
   const _handleMint = (imageUrl, upperTrigramSigns, lowerTrigramSigns, colorGeneFrom, colorGeneTo, zodiacName) => {
     contract.methods.mintGene0(imageUrl, upperTrigramSigns, lowerTrigramSigns, colorGeneFrom, colorGeneTo, zodiacName)
       .send({from: accounts[0]})
         .on('transactionHash', (hash) => {
           contract.events.Transfer({}, async (error, event) => {
-            console.log("~~~~~~~~~~event: ", event)
-            // message.success({ content: 'Mint Success!', key:"loading", duration: 2 });
+            console.log("~~~~~~~~~~event: ", event);
+            _handleModalSuccess();
             const nftList = await getNftList()
             setNftList(nftList.collection)
           })
@@ -166,7 +210,8 @@ function MyApp({ Component, pageProps }) {
       .send({from: accounts[0]})
         .on('transactionHash', (hash) => {
           contract.events.Transfer({}, async (error, event) => {
-            console.log("~~~~~~~~~~event: ", event)            
+            console.log("~~~~~~~~~~event: ", event)  
+            _handleModalSuccess();          
             const nftList = await getNftList()
             setNftList(nftList.collection)
           })
@@ -182,7 +227,7 @@ function MyApp({ Component, pageProps }) {
   <Footer>
     { (ntfList || []).length>2 ? <Button type="primary" onClick={handleBreed}>breed</Button> : null }
   </Footer>
-  <StepModal showModal={showModal} setShowModal={setShowModal}></StepModal>
+  <StepModal modalData={modalData} showModal={showModal} setShowModal={setShowModal}></StepModal>
 </Layout>
 }
 

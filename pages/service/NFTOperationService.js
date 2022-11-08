@@ -13,6 +13,8 @@ const {trigramNameConfig,
   trigramToastConfig,
   indexSequenceToTrigramSign} = require('../service/common/config.js')
 
+const {getCurrentTime} = require('../service/common/time.js')
+
 const { upload } = require('./IpfsService')
 const fs = require('fs')
 const path = require('path')
@@ -143,7 +145,8 @@ export const generateImage = async (randomNumber) => {
         // name of zodiac:
         zodiacText: zodiacNameConfig[zodiacName],
         // a toast based on current trigram
-        toast: trigramToastConfig[trigramSign.substring(0, 3)]
+        toast: trigramToastConfig[trigramSign.substring(0, 3)],
+        time: getCurrentTime("yyyy-MM-dd hh:mm:ss")
       }
   }
 }
@@ -235,14 +238,15 @@ export const breedExe = async (
       'https://purple-solid-leopard-256.mypinata.cloud/ipfs/' + ipfsHash,
     // print newly inherited trigrams:
     showMessage: {
-      inheritedTrigram: inheritRecorder
+      lightedTrigram: inheritRecorder
         .map((num, index) => num == 1 ? trigramNameConfig[indexSequenceToTrigramSign[index]] + '(' + indexSequenceToTrigramSign[index] + ')' : null)
         .filter(num => num != null)
         .join(', '),
       zodiacText: zodiacNameConfig[motherMetadata.zodiacName],
       toast: trigramToastConfig[inheritRecorder
-        .map((num, index) => num == 1 ? trigramNameConfig[indexSequenceToTrigramSign[index]] + '(' + indexSequenceToTrigramSign[index] + ')' : null)
-        .filter(num => num != null)[0]]
+        .map((num, index) => num == 1 ? indexSequenceToTrigramSign[index] : null)
+        .filter(num => num != null)[0]],
+      time: getCurrentTime("yyyy-MM-dd hh:mm:ss")
     }
   }
 }

@@ -20,7 +20,7 @@ export const indexSequenceToTrigramSign = {
   1: '110',
   2: '101',
   3: '011',
-  4: '110',
+  4: '100',
   5: '010',
   6: '001',
   7: '000',

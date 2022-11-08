@@ -15,16 +15,6 @@ import styles from '../styles/List.module.css'
 function List(props){
   const { handleCheck, handleBreed } = props;
   
-  const imgList = [
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png",
-    "https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-  ]
-
   const onChange = (check)=>{
     console.log('onChange: ', check)
     
@@ -40,11 +30,11 @@ function List(props){
         <Card
           key={index}
           hoverable
-          style={{ width: 240 }}
+          style={{ width: 260 }}
           cover={<img alt="example" src={nft.tokenUri} />}
           className={styles.item}
         >
-          <Meta title={`EightTrigram-tokenId-${nft.tokenId}`} description={`This is a ${nft.zodiacName}`} />
+          <Meta title={`EightTrigram-# ${nft.tokenId}`} description={`This is a ${nft.zodiacName}`} />
           { props.showSelect && <Checkbox value={nft.tokenId} /> }
         </Card>
         ))

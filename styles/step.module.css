@@ -1,0 +1,23 @@
+.content{
+  margin: 40px 0;
+}
+.descriptions{
+  padding: 20px;
+}
+.approvalContent{
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+}
+
+.approvalTitle{
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 32px;
+  color: #114a64d9
+}
+.approvalContent{
+  text-align: center;
+  font-size: 20px;
+  color: #3d809ed9;
+}
